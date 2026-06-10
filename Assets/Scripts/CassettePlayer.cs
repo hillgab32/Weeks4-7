@@ -15,6 +15,8 @@ public class CassettePlayer : MonoBehaviour
     {
         musicLength = music.length;
         musicProgress = 0f;
+        musicTrack.value = 0f;
+        musicTrack.maxValue = musicLength;
     }
 
     // Update is called once per frame
@@ -22,18 +24,25 @@ public class CassettePlayer : MonoBehaviour
     {
         if(musicPlaying)
         {
+            musicTrack.value += Time.deltaTime;
             musicProgress += Time.deltaTime;
         }
         if (musicProgress >= musicLength)
         {
             musicPlaying = false;
             musicProgress = 0f;
+            musicTrack.value = 0f;
         }
 
     }
 
     public void OnButtonPlay()
     {
+        if (musicProgress >= musicLength)
+        {
+            musicProgress = 0f;
+            musicTrack.value = 0f;
+        }
         Debug.Log("You hearing these tunes?");
         musicPlayer.Play();
         musicPlaying = true;
